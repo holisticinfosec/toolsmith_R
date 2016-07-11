@@ -1,32 +1,48 @@
 ---
 title: "HIBPwned or HIBPasted?"
 author: "Russ McRee"
-date: "July 10, 2016"
+date: "`r Sys.Date()`"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+if(!require("data.table")) install.packages("data.table")
+library("data.table")
+
+#' Collapse breach list into a table and present with kable
+show_results<-function(x){
+  Account<-x
+  knitr::kable(data.table::rbindlist(
+  Account, idcol = "Account"
+  ))
+  }
 ```
 
 ## Steph Locke's HIBPwned
 
 Utilise Troy Hunt's HaveIBeenPwned.com API to check if your email addresses and/or user names have been present in a publicly disclosed data breach or paste.
 
+```{r}
+if(!require("HIBPwned")) install.packages("HIBPwned")
+library("HIBPwned")
+```
+
+## Who am I?
+Or in other words what accounts should I check?
+```{r}
+myaccounts<-c("rmcree@yahoo.com", "holisticinfosec@gmail.com", "russ@holisticinfosec.org")
+```
+
 ## HIBPwned?
 
 ```{r}
-if(!require("devtools")) install.packages("devtools")
-# Get or upgrade from github
-devtools::install_github("censornet/HIBPwned")
-library("HIBPwned")
-account_breaches(c("rmcree@yahoo.com", "holisticinfosec@gmail.com", "russ@holisticinfosec.org"), truncate = TRUE)
+show_results(account_breaches(myaccounts, truncate = TRUE))
 ```
-## HIBPasted?
 
+## HIBPasted?
 Determine what information may have been pasted (Pastebin, etc.)
 
 ```{r}
-library("HIBPwned")
-pastes(c("rmcree@yahoo.com", "holisticinfosec@gmail.com", "russ@holisticinfosec.org"))
+show_results(pastes(myaccounts, truncate = TRUE))
 ```
