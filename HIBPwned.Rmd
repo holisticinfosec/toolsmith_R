@@ -1,0 +1,32 @@
+---
+title: "HIBPwned or HIBPasted?"
+author: "Russ McRee"
+date: "July 10, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Steph Locke's HIBPwned
+
+Utilise Troy Hunt's HaveIBeenPwned.com API to check if your email addresses and/or user names have been present in a publicly disclosed data breach or paste.
+
+## HIBPwned?
+
+```{r}
+if(!require("devtools")) install.packages("devtools")
+# Get or upgrade from github
+devtools::install_github("censornet/HIBPwned")
+library("HIBPwned")
+account_breaches(c("rmcree@yahoo.com", "holisticinfosec@gmail.com", "russ@holisticinfosec.org"), truncate = TRUE)
+```
+## HIBPasted?
+
+Determine what information may have been pasted (Pastebin, etc.)
+
+```{r}
+library("HIBPwned")
+pastes(c("rmcree@yahoo.com", "holisticinfosec@gmail.com", "russ@holisticinfosec.org"))
+```
