@@ -1,4 +1,5 @@
 library(rgeolocate)
+library(tm)
 library(wordcloud)
 library(RColorBrewer)
 library(plotrix)
